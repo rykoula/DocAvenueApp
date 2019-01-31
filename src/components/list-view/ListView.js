@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
-import config from "../../config/config.dist";
+import fetch from "../../actions/posts";
 
 class ListView extends Component {
   constructor(props) {
@@ -10,10 +10,9 @@ class ListView extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(config.api_url)
-      .then(response => response.json())
-      .then(data => this.setState({ data }));
+  async componentDidMount() {
+    const data = await fetch.fetchPosts();
+    this.setState({ data });
   }
 
   render() {
