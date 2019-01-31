@@ -18,12 +18,19 @@ class ListView extends Component {
   render() {
     return (
       <FlatList
-        data={this.state.data}
+        data={
+          this.state.data !== null &&
+          this.state.data.sort(function(post1, post2) {
+            let postOne = post1.title.toLowerCase(),
+              postTwo = post2.title.toLowerCase();
+            if (postOne < postTwo) return -1;
+            if (postOne > postTwo) return 1;
+            return 0;
+          })
+        }
         renderItem={({ item }) => (
           <View style={styles.flatview}>
-            <Text style={styles.identifier}> {item.id} </Text>
             <Text style={styles.title}> {item.title} </Text>
-            <Text style={styles.body}> {item.body} </Text>
           </View>
         )}
         keyExtractor={item => item.id.toString()}
