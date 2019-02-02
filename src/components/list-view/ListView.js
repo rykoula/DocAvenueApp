@@ -1,33 +1,34 @@
 import React, { Component } from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
+import { fetchingPosts } from "../../actions/posts";
 import fetch from "../../actions/posts";
+import { connect } from "react-redux";
 
 class ListView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: []
     };
   }
 
-  async componentDidMount() {
-    const data = await fetch.fetchPosts();
-    this.setState({ data });
+  componentDidMount() {
+    this._fetchPosts();
   }
 
+  _fetchPosts = () => {
+    try {
+      this.props.fetchingPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
+    console.log(this.props);
     return (
       <FlatList
-        data={
-          this.state.data !== null &&
-          this.state.data.sort(function(post1, post2) {
-            let postOne = post1.title.toLowerCase(),
-              postTwo = post2.title.toLowerCase();
-            if (postOne < postTwo) return -1;
-            if (postOne > postTwo) return 1;
-            return 0;
-          })
-        }
+        data={this.props.posts.listPosts}
         renderItem={({ item }) => (
           <View style={styles.flatview}>
             <Text style={styles.title}> {item.title} </Text>
@@ -42,7 +43,7 @@ class ListView extends Component {
 const styles = StyleSheet.create({
   flatview: {
     justifyContent: "center",
-    paddingTop: 30,
+    paddingTop: 10,
     borderRadius: 2
   },
   identifier: {
@@ -50,11 +51,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "Verdana",
-    fontSize: 12
+    fontSize: 20
   },
   body: {
     color: "blue"
   }
 });
 
-export default ListView;
+const mapStateToProps = state => {
+  return {
+    posts: state.posts
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { fetchingPosts }
+)(ListView);
