@@ -1,16 +1,24 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import ListView from "../components/list-view";
 import { Provider } from "react-redux";
-import store from "../config/configure-store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "../config/configure-store";
 
 export default class AppContainer extends Component {
+  renderLoading = () => (
+    <View>
+      <ActivityIndicator size="large" />
+    </View>
+  );
   render() {
     return (
       <Provider store={store}>
-        <View>
-          <ListView />
-        </View>
+        <PersistGate persistor={persistor} loading={this.renderLoading()}>
+          <View>
+            <ListView />
+          </View>
+        </PersistGate>
       </Provider>
     );
   }
