@@ -1,4 +1,5 @@
 import { ActionType } from "../actions/types";
+import { PAGINATION_MAX } from "../config/constances";
 const initialState = { listPosts: [] };
 
 export default (state = initialState, action) => {
@@ -12,7 +13,7 @@ export default (state = initialState, action) => {
           if (postOne > postTwo) return 1;
           return 0;
         })
-        .slice(0, 50);
+        .slice(0, PAGINATION_MAX);
       return {
         ...state,
         listPosts: newListe
