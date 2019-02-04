@@ -15,9 +15,7 @@ export default class AppContainer extends Component {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor} loading={this.renderLoading()}>
-          <View>
-            <ListView />
-          </View>
+          <ListView />
         </PersistGate>
       </Provider>
     );
