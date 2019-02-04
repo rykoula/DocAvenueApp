@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "white"
   },
+  header: {
+    padding: 10,
+    paddingBottom: 20
+  },
   h1text: {
     fontSize: 24,
     fontFamily: "Helvetica",
